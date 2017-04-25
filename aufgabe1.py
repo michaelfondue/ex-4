@@ -13,7 +13,7 @@ import glob
 from lxml import etree
 
 def getfreqwords(indir, outfile):
-	
+	sentences_count = {}
 	sacbooks = []
 	sacbooks = glob.glob(indir + 'SAC-Jahrbuch_*.xml', recursive=False)
 	
@@ -21,7 +21,18 @@ def getfreqwords(indir, outfile):
 		#with open(file) as src, open('output.txt', 'w') as trg:
 		sentences = []
 		tree = etree.parse(file)
-		sentences.append(file.get('s')
+		sentences.append(hash(tree.findall('<s*<\\s>')))
+		#print(sentences[0])
+	for words in sentence:
+		if(len(words.split()) >= 6):
+			if(words in sentences_count):
+				num = sentences_count[words]
+				sentences_counts[words] = num + 1
+			else:
+				sentences_count.update({words:1})
+	list = sorted(sentences_count.items())
+	for x in range(0,20):
+		print(sentenced_count[x])
 			
 			#sentence_hashes = set()
 			#for sentence in src:
@@ -30,11 +41,11 @@ def getfreqwords(indir, outfile):
 				#	sentence_hashes.add(sentence_hash)
 				#	trg.write(sentence)
 
-	outputfile = open(outfile , 'w')
-	for x in sacbooks:
-		outputfile.write(x)
+	#outputfile = open(outfile , 'w')
+	#for x in sacbooks:
+	#	outputfile.write(x)
 
-	outputfile.close()
+	#outputfile.close()
 
 
 
@@ -42,10 +53,6 @@ def main():
 
 	getfreqwords('SAC/', 'output.txt')	
 
-
-
-if __name__ == '__main__':
-    main()
 
 
 if __name__ == '__main__':
