@@ -23,25 +23,26 @@ def getfreqwords(indir, outfile):
 
 	sacbooks = glob.glob(indir + 'SAC-Jahrbuch_*.xml', recursive=False)
 	#print(sacbooks)
-	outputfile = open(outfile , 'w')
+	outputfile = open(outfile , 'w', encoding = 'utf-8')
 	#test = open(sacbooks[0], 'r')
 	#print(test.read())
 	#test.close()
-	tree = ET.parse(sacbooks[0])
-	root = tree.getroot()
-	for sentence in root.findall('.//s'):
-		#element.append(ET.tostring(sentence, method = 'text', pretty_print = True, encoding='utf-8'))
-		sente = ET.tostring(sentence, method = 'text', pretty_print = True, encoding='utf-8')
-		sentstr = str(sente, 'utf-8').split()
-		if (len(sentstr) >= 6):
-			for x in string.punctuation:
-				if x in sentstr:
-					sentstr.remove(x)
-			sentforhash = ' '.join(sentstr)
-			sent_hash = hash(sentforhash)
-			if sent_hash not in sent:
-				sent.add(sent_hash)
-				outputfile.write(sentforhash + '\n')
+	for sacbook in sacbooks:
+		tree = ET.parse(sacbook)
+		root = tree.getroot()
+		for sentence in root.findall('.//s'):
+			#element.append(ET.tostring(sentence, method = 'text', pretty_print = True, encoding='utf-8'))
+			sente = ET.tostring(sentence, method = 'text', pretty_print = True, encoding ='utf-8')
+			sentstr = str(sente, 'utf-8').split()
+			if (len(sentstr) >= 6):
+				for x in string.punctuation:
+					if x in sentstr:
+						sentstr.remove(x)
+				sentforhash = ' '.join(sentstr)
+				sent_hash = hash(sentforhash)
+				if sent_hash not in sent:
+					sent.add(sent_hash)
+					outputfile.write(sentforhash + '\n')
 
 		# 	sent.add(x)
 

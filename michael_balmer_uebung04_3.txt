@@ -5,3 +5,6 @@ Reflexion/ Feedback
 1. Erste Erfahrung mit grösseren Datenmengen. Interessante Datenmanipulation und Arbeit mit xml
 
 2. 8h / Verschätzung aufgrund des WKs. Sollte deutlich mehr Aufwand betrieben werden.
+Zusätzlich: ca. 17h
+
+ 
