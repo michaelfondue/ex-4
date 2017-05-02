@@ -19,31 +19,45 @@ def getfreqwords(indir, outfile):
 	sacbooks = []
 	element = []
 	words = []
-	sent = []
-	
+	sent = set()
+
 	sacbooks = glob.glob(indir + 'SAC-Jahrbuch_*.xml', recursive=False)
 	#print(sacbooks)
+	outputfile = open(outfile , 'w')
 	#test = open(sacbooks[0], 'r')
 	#print(test.read())
 	#test.close()
 	tree = ET.parse(sacbooks[0])
 	root = tree.getroot()
 	for sentence in root.findall('.//s'):
-		element.append(ET.tostring(sentence, method = 'text', pretty_print = True, encoding='utf-8'))
+		#element.append(ET.tostring(sentence, method = 'text', pretty_print = True, encoding='utf-8'))
+		sente = ET.tostring(sentence, method = 'text', pretty_print = True, encoding='utf-8')
+		sentstr = str(sente, 'utf-8').split()
+		if (len(sentstr) >= 6):
+			for x in string.punctuation:
+				if x in sentstr:
+					sentstr.remove(x)
+			sentforhash = ' '.join(sentstr)
+			sent_hash = hash(sentforhash)
+			if sent_hash not in sent:
+				sent.add(sent_hash)
+				outputfile.write(sentforhash + '\n')
 
+		# 	sent.add(x)
+
+	outputfile.close()
 		#print(ET.tostring(sentence, method = 'text', pretty_print = True, encoding='utf-8'))
 	 	#print('nächster Satz')
-		for word in element:
-			strword = str(word, 'utf-8')
-			words.append(strword.split())
+		
+
+		# for word in element:
+		# 	strword = str(word, 'utf-8')
+		# 	words.append(strword.split())
+	 	
+
 	 		#print(ET.tostring(word, method = 'text', encoding='utf-8'))
 	
-	for sent in words:
-		for x in string.punctuation:
-			if (x in sent):
-				sent.remove(x)
-		if (len(sent) >= 6):
-			print(set(sent))
+	#if (len(sent) >= 6):
 	#print(words)
 	#print(element[0])
 	#print(ET.tostring(sentencelist[0]))
